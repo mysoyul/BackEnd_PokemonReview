@@ -46,6 +46,7 @@ public class AuthController {
 
         UserEntity user = new UserEntity();
         user.setUsername(userDto.getUsername());
+        //password encoding
         user.setPassword(passwordEncoder.encode((userDto.getPassword())));
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
