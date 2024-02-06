@@ -24,13 +24,12 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
         ObjectMapper mapper = new ObjectMapper();
         ErrorObject errorObject = new ErrorObject();
         errorObject.setStatusCode(HttpServletResponse.SC_FORBIDDEN);
-        errorObject.setMessage("Access Forbidden");
+        errorObject.setMessage("요청된 리소스에 대한 권한(authorization)이 없습니다!");
 
         // Add content to the response
         String json = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(errorObject);
         response.getWriter().write(json);
-
 
     }
 }

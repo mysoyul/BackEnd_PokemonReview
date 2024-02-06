@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -32,6 +34,18 @@ public class GlobalExceptionHandler {
         log.error(e.getMessage(), e);
 
         return new ResponseEntity<ErrorObject>(errorObject, HttpStatusCode.valueOf(500));
+    }
+
+    //403
+    @ExceptionHandler(value = AccessDeniedException.class)
+    public void accessDeniedExceptionHandler(Exception e) {
+        throw new AccessDeniedException(e.getMessage());
+    }
+
+    //401
+    @ExceptionHandler(value = BadCredentialsException.class)
+    public void badCredentialExceptionHandler(BadCredentialsException e){
+        throw new BadCredentialsException(e.getMessage());
     }
 
 }
