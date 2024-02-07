@@ -3,6 +3,8 @@ package com.pokemonreview.api.controller.security;
 import com.pokemonreview.api.dto.security.AuthResponseDto;
 import com.pokemonreview.api.dto.security.LoginDto;
 import com.pokemonreview.api.dto.security.UserDto;
+import com.pokemonreview.api.exceptions.BadResourceException;
+import com.pokemonreview.api.exceptions.ErrorObject;
 import com.pokemonreview.api.jwt.JWTGenerator;
 import com.pokemonreview.api.models.security.RoleEntity;
 import com.pokemonreview.api.models.security.UserEntity;
@@ -49,9 +51,12 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody UserDto userDto) {
+    public ResponseEntity<?> register(@RequestBody UserDto userDto) {
         if (userRepository.existsByUsername(userDto.getUsername())) {
-            return new ResponseEntity<>("Username is taken!", HttpStatus.BAD_REQUEST);
+            //return new ResponseEntity<>("Username is taken!", HttpStatus.BAD_REQUEST);
+            return ResponseEntity
+                    .status(400)
+                    .body(ErrorObject.builder().message("이미 존재하는 Username입니다").build());
         }
 
         UserEntity user = new UserEntity();
